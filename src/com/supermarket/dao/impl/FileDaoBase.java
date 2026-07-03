@@ -43,7 +43,20 @@ public abstract class FileDaoBase<T> {
         }
     }
 
+    /**
+     * 生成新ID：取当前最大ID + 1
+     * 使用反射调用实体类的 getId() 方法，所有实体类均遵循此约定
+     */
     protected int generateId(List<T> list) {
-        return list.size() + 1; // 简化版ID生成
+        return list.stream()
+                .mapToInt(item -> {
+                    try {
+                        return (int) item.getClass().getMethod("getId").invoke(item);
+                    } catch (Exception e) {
+                        return 0;
+                    }
+                })
+                .max()
+                .orElse(0) + 1;
     }
 }
