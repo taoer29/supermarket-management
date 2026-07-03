@@ -31,3 +31,6 @@ bin/
 
 ### Project data ###
 data/
+
+### Setup scripts ###
+*.ps1
