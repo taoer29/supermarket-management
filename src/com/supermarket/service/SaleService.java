@@ -2,7 +2,10 @@ package com.supermarket.service;
 
 import com.supermarket.dao.*;
 import com.supermarket.dao.impl.*;
+import com.supermarket.dao.impl.sql.*;
 import com.supermarket.entity.*;
+import com.supermarket.util.Config;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,9 +17,9 @@ import java.util.List;
  * 结算流程：扣库存 → 生成销售记录 → 生成明细 → 清空购物车
  */
 public class SaleService {
-    private final SaleDao saleDao = new SaleDaoFileImpl();
-    private final ProductDao productDao = new ProductDaoFileImpl();
-    private final SaleItemDaoFileImpl saleItemDao = new SaleItemDaoFileImpl();
+    private final SaleDao saleDao = Config.isSqlMode() ? new SaleDaoSqlImpl() : new SaleDaoFileImpl();
+    private final ProductDao productDao = Config.isSqlMode() ? new ProductDaoSqlImpl() : new ProductDaoFileImpl();
+    private final SaleItemDao saleItemDao = Config.isSqlMode() ? new SaleItemDaoSqlImpl() : new SaleItemDaoFileImpl();
 
     /**
      * 结算购物车

@@ -2,14 +2,17 @@ package com.supermarket.service;
 
 import com.supermarket.dao.SupplierDao;
 import com.supermarket.dao.impl.SupplierDaoFileImpl;
+import com.supermarket.dao.impl.sql.SupplierDaoSqlImpl;
 import com.supermarket.entity.Supplier;
+import com.supermarket.util.Config;
+
 import java.util.List;
 
 /**
  * 供应商业务逻辑层
  */
 public class SupplierService {
-    private final SupplierDao supplierDao = new SupplierDaoFileImpl();
+    private final SupplierDao supplierDao = Config.isSqlMode() ? new SupplierDaoSqlImpl() : new SupplierDaoFileImpl();
 
     public boolean addSupplier(Supplier s) { return supplierDao.add(s); }
     public boolean updateSupplier(Supplier s) { return supplierDao.update(s); }

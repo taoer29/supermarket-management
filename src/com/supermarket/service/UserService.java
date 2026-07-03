@@ -2,16 +2,17 @@ package com.supermarket.service;
 
 import com.supermarket.dao.UserDao;
 import com.supermarket.dao.impl.UserDaoFileImpl;
+import com.supermarket.dao.impl.sql.UserDaoSqlImpl;
 import com.supermarket.entity.User;
+import com.supermarket.util.Config;
+
 import java.util.List;
 
 /**
  * 用户业务逻辑层
- *
- * 接入SQL时：将 UserDaoFileImpl 替换为 UserDaoSqlImpl
  */
 public class UserService {
-    private final UserDao userDao = new UserDaoFileImpl();
+    private final UserDao userDao = Config.isSqlMode() ? new UserDaoSqlImpl() : new UserDaoFileImpl();
 
     public boolean addUser(User user) {
         if (userDao.findByUsername(user.getUsername()) != null) {

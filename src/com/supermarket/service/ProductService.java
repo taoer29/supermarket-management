@@ -2,14 +2,17 @@ package com.supermarket.service;
 
 import com.supermarket.dao.ProductDao;
 import com.supermarket.dao.impl.ProductDaoFileImpl;
+import com.supermarket.dao.impl.sql.ProductDaoSqlImpl;
 import com.supermarket.entity.Product;
+import com.supermarket.util.Config;
+
 import java.util.List;
 
 /**
  * 商品业务逻辑层
  */
 public class ProductService {
-    private final ProductDao productDao = new ProductDaoFileImpl();
+    private final ProductDao productDao = Config.isSqlMode() ? new ProductDaoSqlImpl() : new ProductDaoFileImpl();
 
     public boolean addProduct(Product product) {
         return productDao.add(product);

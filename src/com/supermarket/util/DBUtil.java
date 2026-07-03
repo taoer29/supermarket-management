@@ -5,28 +5,37 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * 数据库连接工具类——接入MySQL后使用
- * 当前文件存储阶段不需要数据库，直接返回null
+ * 数据库连接工具类——SQL Server + Windows 身份认证
  *
- * 接入MySQL时：
- * 1. 添加 mysql-connector-java 依赖
- * 2. 取消下方注释
- * 3. 修改 DB_URL, USER, PASSWORD 为实际配置
+ * 使用前：
+ * 1. 确保 SQL Server 已安装并运行
+ * 2. 确保 lib/mssql-jdbc.jar 已添加到项目依赖
+ * 3. 运行 sql/init.sql 初始化数据库表
  */
 public class DBUtil {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/supermarket?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    // SQL Server + Windows 身份认证
+    private static final String DB_URL =
+            "jdbc:sqlserver://localhost:1433;"
+                    + "databaseName=supermarket;"
+                    + "integratedSecurity=true;"
+                    + "encrypt=false;"
+                    + "trustServerCertificate=true;"
+                    + "authentication=NotSpecified";
+
+    static {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("❌ mssql-jdbc 驱动未找到，请检查 lib/mssql-jdbc.jar 是否已添加到项目依赖", e);
+        }
+    }
 
     /**
-     * 获取数据库连接（接入MySQL时使用）
+     * 获取数据库连接
      */
     public static Connection getConnection() throws SQLException {
-        // 当前使用文件存储，不需要数据库
-        // 接入MySQL时取消注释：
-        // return DriverManager.getConnection(DB_URL, USER, PASSWORD);
-        throw new SQLException("当前使用文件存储模式，未接入数据库。切换到MySQL时取消 DBUtil 注释即可。");
+        return DriverManager.getConnection(DB_URL);
     }
 
     /**

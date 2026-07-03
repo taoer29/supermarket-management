@@ -2,9 +2,11 @@ package com.supermarket.ui;
 
 import com.supermarket.dao.CategoryDao;
 import com.supermarket.dao.impl.CategoryDaoFileImpl;
+import com.supermarket.dao.impl.sql.CategoryDaoSqlImpl;
 import com.supermarket.entity.Category;
 import com.supermarket.entity.Product;
 import com.supermarket.service.ProductService;
+import com.supermarket.util.Config;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 public class ProductPanel extends JPanel {
     private final ProductService productService = new ProductService();
-    private final CategoryDao categoryDao = new CategoryDaoFileImpl();
+    private final CategoryDao categoryDao = Config.isSqlMode() ? new CategoryDaoSqlImpl() : new CategoryDaoFileImpl();
     private JTable table;
     private DefaultTableModel tableModel;
     private JLabel statusLabel;

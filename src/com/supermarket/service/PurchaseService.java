@@ -2,9 +2,10 @@ package com.supermarket.service;
 
 import com.supermarket.dao.PurchaseDao;
 import com.supermarket.dao.impl.PurchaseDaoFileImpl;
+import com.supermarket.dao.impl.sql.PurchaseDaoSqlImpl;
 import com.supermarket.entity.Purchase;
 import com.supermarket.entity.Product;
-import com.supermarket.service.ProductService;
+import com.supermarket.util.Config;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * 进货流程：创建进货记录 → 更新对应商品的库存（增加）
  */
 public class PurchaseService {
-    private final PurchaseDao purchaseDao = new PurchaseDaoFileImpl();
+    private final PurchaseDao purchaseDao = Config.isSqlMode() ? new PurchaseDaoSqlImpl() : new PurchaseDaoFileImpl();
     private final ProductService productService = new ProductService();
 
     /**
