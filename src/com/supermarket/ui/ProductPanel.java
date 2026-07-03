@@ -1,11 +1,16 @@
 package com.supermarket.ui;
 
+import com.supermarket.dao.CategoryDao;
+import com.supermarket.dao.impl.CategoryDaoFileImpl;
+import com.supermarket.entity.Category;
 import com.supermarket.entity.Product;
 import com.supermarket.service.ProductService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 商品管理面板——CRUD + 分页 + 搜索 + 库存预警
@@ -14,6 +19,7 @@ import java.awt.*;
  */
 public class ProductPanel extends JPanel {
     private final ProductService productService = new ProductService();
+    private final CategoryDao categoryDao = new CategoryDaoFileImpl();
     private JTable table;
     private DefaultTableModel tableModel;
 
@@ -57,11 +63,24 @@ public class ProductPanel extends JPanel {
         refreshTable();
     }
 
+    /**
+     * 构建分类ID → 分类名称 的映射
+     */
+    private Map<Integer, String> buildCategoryMap() {
+        Map<Integer, String> map = new HashMap<>();
+        for (Category c : categoryDao.findAll()) {
+            map.put(c.getId(), c.getName());
+        }
+        return map;
+    }
+
     private void refreshTable() {
+        Map<Integer, String> categoryMap = buildCategoryMap();
         tableModel.setRowCount(0);
         for (Product p : productService.findAll()) {
+            String categoryName = categoryMap.getOrDefault(p.getCategoryId(), "未分类(ID:" + p.getCategoryId() + ")");
             tableModel.addRow(new Object[]{
-                    p.getId(), p.getName(), p.getCategoryId(),
+                    p.getId(), p.getName(), categoryName,
                     p.getStock(), p.getCostPrice(), p.getSellingPrice(),
                     p.getMinStock(), p.getStock() <= p.getMinStock() ? "⚠ 预警" : "正常"
             });
