@@ -26,6 +26,7 @@ public class MainFrame extends JFrame {
         tabbedPane.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 
         tabbedPane.addTab("商品管理", new ProductPanel());
+        tabbedPane.addTab("进货管理", new PurchasePanel(currentUser));
         tabbedPane.addTab("用户管理", new UserPanel());
         tabbedPane.addTab("供应商管理", new SupplierPanel());
         tabbedPane.addTab("收银台", new SalePanel(currentUser));
