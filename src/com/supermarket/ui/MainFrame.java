@@ -1,6 +1,7 @@
 package com.supermarket.ui;
 
 import com.supermarket.entity.User;
+import com.supermarket.util.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,9 @@ public class MainFrame extends JFrame {
         add(tabbedPane, BorderLayout.CENTER);
 
         // 底部状态栏
-        JLabel statusBar = new JLabel(" 已连接到数据存储：文件模式（可切换至MySQL）");
+        String modeText = Config.isSqlMode() ? "SQL Server" : "文件(.dat)";
+        String switchText = Config.isSqlMode() ? "文件模式" : "SQL Server";
+        JLabel statusBar = new JLabel(" 已连接到数据存储：" + modeText + "（可切换至" + switchText + "）");
         statusBar.setBorder(BorderFactory.createEtchedBorder());
         add(statusBar, BorderLayout.SOUTH);
     }

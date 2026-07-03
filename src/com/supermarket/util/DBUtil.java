@@ -14,14 +14,14 @@ import java.sql.SQLException;
  */
 public class DBUtil {
 
-    // SQL Server + Windows 身份认证
+    // SQL Server + SQL Server 身份认证（sa用户）
     private static final String DB_URL =
             "jdbc:sqlserver://localhost:1433;"
                     + "databaseName=supermarket;"
-                    + "integratedSecurity=true;"
                     + "encrypt=false;"
-                    + "trustServerCertificate=true;"
-                    + "authentication=NotSpecified";
+                    + "trustServerCertificate=true;";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "Supermarket@2025";
 
     static {
         try {
@@ -35,7 +35,7 @@ public class DBUtil {
      * 获取数据库连接
      */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
+        return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 
     /**

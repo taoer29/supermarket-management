@@ -8,8 +8,9 @@ import javax.swing.*;
 /**
  * 超市管理系统 - 启动入口
  *
- * 数据存储模式：当前使用文件I/O（序列化.dat文件）
- * 切换至MySQL：实现 dao/impl/sql/ 下的SQL Dao类，并修改 Service 中的引用
+ * 数据存储模式：由 util/Config.java 中的 DATA_MODE 控制
+ * - FILE：文件I/O（序列化.dat文件，无需数据库）
+ * - SQL：SQL Server（需安装 SQL Server 并运行 sql/init.sql）
  */
 public class App {
     public static void main(String[] args) {

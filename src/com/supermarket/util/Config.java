@@ -12,7 +12,7 @@ package com.supermarket.util;
 public class Config {
 
     /** 数据存储模式 */
-    public static final DataMode DATA_MODE = DataMode.FILE;
+    public static final DataMode DATA_MODE = DataMode.SQL;
 
     public enum DataMode {
         FILE,   // 文件序列化（.dat）
