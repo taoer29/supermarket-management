@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
 
         tabbedPane.addTab("商品管理", new ProductPanel());
         tabbedPane.addTab("进货管理", new PurchasePanel(currentUser));
+        tabbedPane.addTab("分类管理", new CategoryPanel());
         tabbedPane.addTab("用户管理", new UserPanel());
         tabbedPane.addTab("供应商管理", new SupplierPanel());
         tabbedPane.addTab("收银台", new SalePanel(currentUser));
